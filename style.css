@@ -31,13 +31,13 @@ body {
 .display {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-end;
     flex: 1;
     color: #0A456B;
     border-radius: 5px;
     font-size: 2rem;
-    padding-right: 5px;
+    padding: 10px 5px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 .line.top {
@@ -46,9 +46,7 @@ body {
     font-weight:lighter;
     /* border: 1px solid black; */
 }
-.line.bottom {
-    /* border: 1px solid black; */
-}
+
 .functions {
     gap: 10px;
     align-items: center;
