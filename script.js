@@ -10,15 +10,19 @@ const minusOperator = document.getElementById('min-operator');
 const multiplyOperator = document.getElementById('mult-operator');
 const divideOperator = document.getElementById('div-operator');
 
-let operating = false;
-let firstNum = 0;
-let secondNum = 0;
+let counter = 0;
+let partial = [];
+let total = [];
 let numbers = [];
 let operator = '';
-let topDisplay;
+
+bottomScreen.addEventListener('overflow', () => {
+    console.log('error');
+})
 
 cKey.addEventListener('click', () => {
-    firstNum = 0;
+    numbers = [];
+    partial = [];
     bottomScreen.textContent = '';
     topScreen.textContent = '';
 });
@@ -27,45 +31,33 @@ delKey.addEventListener('click', () => {
 })
 
 plusOperator.addEventListener('click', () => {
-    operating = true;
-    numbers.push(+(bottomScreen.textContent));
-    topScreen.textContent = (bottomScreen.textContent + '+');
+    counter += 1;
+    bottomScreen.textContent += '+';
+    partial = numbers.reduce(add, 0);
+    topScreen.textContent = (partial);
+    clearNumbers();
+    partial = [];
 })
+
 
 // Add listener to each number key, on click the proper number is displayed and stored
 function addListenerToNumbers (array) {
     array.forEach(element => {
         element.addEventListener('click', () => {
-            if (!operating) {
-            bottomScreen.textContent += element.innerText;
-            }
-            else {
-                operating = false;
-                bottomScreen.textContent = '';
+                numbers.push(+(element.innerText));
                 bottomScreen.textContent += element.innerText;
-            }
-        })
+            })
     });
 };
-// function addListenerToOperators (array) {
-//     array.forEach(element => {
-//         element.addEventListener('click', () => {
-//             operatorRoutine(element);
-//         })
-//     });
-// };
-
-// function operatorRoutine (element) {
-//     operator = element.innerText;
-//     firstNum += +(bottomScreen.textContent);
-//     bottomScreen.textContent += element.innerText;
-// }
-
 
 addListenerToNumbers(numberKeys);
 
-
-
+function clearNumbers () {
+    if (numbers.length > 1) {
+        numbers.splice(0);
+        numbers.push(partial);
+    }
+}
 
 function add (num1, num2) {
     return num1 + num2;
@@ -82,3 +74,21 @@ function divide (num1, num2) {
 function operate (num1, num2, operator) {
     return operator(num1, num2);
 }
+
+
+// function addListenerToNumbers (array) {
+//     array.forEach(element => {
+//         element.addEventListener('click', () => {
+//             if (!operating) {
+//                 numbers.push(+(element.innerText));
+//                 bottomScreen.textContent += element.innerText;
+//             }
+//             else {
+//                 operating = false;
+//                 numbers.push(+(element.innerText));
+//                 bottomScreen.textContent = '';
+//                 bottomScreen.textContent += element.innerText;
+//             }
+//         })
+//     });
+// };
