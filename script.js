@@ -14,11 +14,7 @@ let counter = 0;
 let partial = [];
 let total = [];
 let numbers = [];
-let operator = '';
-
-bottomScreen.addEventListener('overflow', () => {
-    console.log('error');
-})
+let numString = '';
 
 cKey.addEventListener('click', () => {
     numbers = [];
@@ -28,24 +24,27 @@ cKey.addEventListener('click', () => {
 });
 delKey.addEventListener('click', () => {
     bottomScreen.textContent = bottomScreen.textContent.slice(0, -1);
-})
+});
 
 plusOperator.addEventListener('click', () => {
     counter += 1;
     bottomScreen.textContent += '+';
+    numbers.push(+numString);
+    numString = '';
     partial = numbers.reduce(add, 0);
     topScreen.textContent = (partial);
     clearNumbers();
     partial = [];
-})
+});
 
 
 // Add listener to each number key, on click the proper number is displayed and stored
 function addListenerToNumbers (array) {
     array.forEach(element => {
         element.addEventListener('click', () => {
-                numbers.push(+(element.innerText));
+                numString += (element.innerText);
                 bottomScreen.textContent += element.innerText;
+                checkLength();
             })
     });
 };
@@ -57,38 +56,34 @@ function clearNumbers () {
         numbers.splice(0);
         numbers.push(partial);
     }
-}
+};
+
+function checkLength () {
+    if (bottomScreen.textContent.length > 13 || counter > 5) {
+        numbers = [];
+        partial = [];
+        bottomScreen.textContent = 'ERROR';
+        topScreen.textContent = 'PRESS C';
+        counter = 0;
+    };
+};
+
+function clearAll () {
+
+};
 
 function add (num1, num2) {
     return num1 + num2;
-}
+};
 function subtract (num1, num2) {
     return num1 - num2;
-}
+};
 function multiply (num1, num2) {
     return num1 * num2;
-}
+};
 function divide (num1, num2) {
     return num1 / num2;
-}
+};
 function operate (num1, num2, operator) {
     return operator(num1, num2);
-}
-
-
-// function addListenerToNumbers (array) {
-//     array.forEach(element => {
-//         element.addEventListener('click', () => {
-//             if (!operating) {
-//                 numbers.push(+(element.innerText));
-//                 bottomScreen.textContent += element.innerText;
-//             }
-//             else {
-//                 operating = false;
-//                 numbers.push(+(element.innerText));
-//                 bottomScreen.textContent = '';
-//                 bottomScreen.textContent += element.innerText;
-//             }
-//         })
-//     });
-// };
+};
