@@ -2,6 +2,7 @@
 const topScreen = document.getElementById('top-screen');
 const bottomScreen = document.getElementById('bottom-screen');
 const numberKeys = document.querySelectorAll('#num');
+const keysForBlock = document.querySelectorAll('.block');
 const operatorKeys = document.querySelectorAll('.operator');
 const cKey = document.getElementById('c-operator');
 const delKey = document.getElementById('del-operator');
@@ -21,6 +22,7 @@ cKey.addEventListener('click', () => {
     partial = [];
     bottomScreen.textContent = '';
     topScreen.textContent = '';
+    removeClickBlock();
 });
 delKey.addEventListener('click', () => {
     bottomScreen.textContent = bottomScreen.textContent.slice(0, -1);
@@ -37,7 +39,6 @@ plusOperator.addEventListener('click', () => {
     partial = [];
 });
 
-
 // Add listener to each number key, on click the proper number is displayed and stored
 function addListenerToNumbers (array) {
     array.forEach(element => {
@@ -48,8 +49,16 @@ function addListenerToNumbers (array) {
             })
     });
 };
-
-addListenerToNumbers(numberKeys);
+function clickBlock () {
+    keysForBlock.forEach(element => {
+        element.classList.add('clickBlock');
+    });
+};
+function removeClickBlock () {
+    keysForBlock.forEach(element => {
+        element.classList.remove('clickBlock');
+    });
+};
 
 function clearNumbers () {
     if (numbers.length > 1) {
@@ -65,6 +74,7 @@ function checkLength () {
         bottomScreen.textContent = 'ERROR';
         topScreen.textContent = 'PRESS C';
         counter = 0;
+        clickBlock();
     };
 };
 
@@ -87,3 +97,5 @@ function divide (num1, num2) {
 function operate (num1, num2, operator) {
     return operator(num1, num2);
 };
+
+addListenerToNumbers(numberKeys);
