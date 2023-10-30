@@ -34,31 +34,33 @@ delKey.addEventListener('click', () => {
 
 plusOperator.addEventListener('click', () => {
     bottomScreen.textContent += '+';
-    checkLength();
     operator.push(add);
-    console.log(operator);
     numbers.push(+numString);
     numString = '';
     partial = numbers.reduce(operator[0]);
     checkOperator();
-    console.log(operator);
-    topScreen.textContent = (partial);
+    topScreen.textContent = partial;
     numbers.splice(0);
     numbers.push(partial);
+    checkLength();
 });
 
 minusOperator.addEventListener('click', () => {
     bottomScreen.textContent += '-';
-    checkLength();
     operator.push(subtract);
+    calculateAndDisplay();
+});
+
+function calculateAndDisplay () {
     numbers.push(+numString);
     numString = '';
     partial = numbers.reduce(operator[0]);
     checkOperator();
-    topScreen.textContent = (partial);
+    topScreen.textContent = partial;
     numbers.splice(0);
     numbers.push(partial);
-});
+    checkLength();
+};
 
 // Add listener to each number key, on click the proper number is displayed and stored
 function addListenerToNumbers (array) {
@@ -88,6 +90,7 @@ function checkLength () {
     if (bottomScreen.textContent.length > 15) {
         numbers = [];
         partial = [];
+        numString = '';
         bottomScreen.textContent = 'ERROR';
         topScreen.textContent = 'PRESS C';
         clickBlock();
