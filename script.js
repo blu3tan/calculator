@@ -11,9 +11,13 @@ const minusOperator = document.getElementById('min-operator');
 const multiplyOperator = document.getElementById('mult-operator');
 const divideOperator = document.getElementById('div-operator');
 
-let counter = 0;
+const add = (num1, num2) => num1 += num2;
+const subtract = (num1, num2) => num1 -= num2;
+const multiply = (num1, num2) => num1 *= num2;
+const divide = (num1, num2) => num1 /= num2;
+
+let operator = [];
 let partial = [];
-let total = [];
 let numbers = [];
 let numString = '';
 
@@ -29,14 +33,31 @@ delKey.addEventListener('click', () => {
 });
 
 plusOperator.addEventListener('click', () => {
-    counter += 1;
     bottomScreen.textContent += '+';
+    checkLength();
+    operator.push(add);
+    console.log(operator);
     numbers.push(+numString);
     numString = '';
-    partial = numbers.reduce(add, 0);
+    partial = numbers.reduce(operator[0]);
+    checkOperator();
+    console.log(operator);
     topScreen.textContent = (partial);
-    clearNumbers();
-    partial = [];
+    numbers.splice(0);
+    numbers.push(partial);
+});
+
+minusOperator.addEventListener('click', () => {
+    bottomScreen.textContent += '-';
+    checkLength();
+    operator.push(subtract);
+    numbers.push(+numString);
+    numString = '';
+    partial = numbers.reduce(operator[0]);
+    checkOperator();
+    topScreen.textContent = (partial);
+    numbers.splice(0);
+    numbers.push(partial);
 });
 
 // Add listener to each number key, on click the proper number is displayed and stored
@@ -49,6 +70,8 @@ function addListenerToNumbers (array) {
             })
     });
 };
+
+// Once maximum is length on the display disable click on everything except C
 function clickBlock () {
     keysForBlock.forEach(element => {
         element.classList.add('clickBlock');
@@ -60,42 +83,21 @@ function removeClickBlock () {
     });
 };
 
-function clearNumbers () {
-    if (numbers.length > 1) {
-        numbers.splice(0);
-        numbers.push(partial);
-    }
-};
-
+// Temporary solution to overflow on the display
 function checkLength () {
-    if (bottomScreen.textContent.length > 13 || counter > 5) {
+    if (bottomScreen.textContent.length > 15) {
         numbers = [];
         partial = [];
         bottomScreen.textContent = 'ERROR';
         topScreen.textContent = 'PRESS C';
-        counter = 0;
         clickBlock();
     };
 };
 
-function clearAll () {
-
-};
-
-function add (num1, num2) {
-    return num1 + num2;
-};
-function subtract (num1, num2) {
-    return num1 - num2;
-};
-function multiply (num1, num2) {
-    return num1 * num2;
-};
-function divide (num1, num2) {
-    return num1 / num2;
-};
-function operate (num1, num2, operator) {
-    return operator(num1, num2);
-};
+function checkOperator () {
+    if (operator.length == 2) {
+        operator.shift(0);
+    }
+}
 
 addListenerToNumbers(numberKeys);
