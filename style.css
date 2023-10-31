@@ -36,7 +36,8 @@ body {
     flex: 1;
     color: #0A456B;
     border-radius: 5px;
-    font-size: 1.6rem;
+    font-size: 1.7rem;
+    font-weight: 400;
     padding: 10px 5px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
     overflow: hidden;
