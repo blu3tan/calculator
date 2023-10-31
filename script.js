@@ -77,12 +77,11 @@ divideOperator.addEventListener('click', () => {
 total.addEventListener('click', () => {
     numbers.push(+numString);
     numString = '';
-    // partial = numbers.reduce(operator[0]);
     provideInitial();
     operator = [];
     numbers.splice(0);
     numbers.push(partial);
-    bottomScreen.textContent = partial;
+    bottomScreen.textContent = checkDecimals(partial);
     topScreen.textContent = '';
     clickBlock(numberKeys);
     removeClickBlock(operatorKeys);
@@ -93,10 +92,9 @@ total.addEventListener('click', () => {
 function calculateAndDisplay () {
     numbers.push(+numString);
     numString = '';
-    // partial = numbers.reduce(operator[0]);
     provideInitial();
     checkOperator();
-    topScreen.textContent = partial;
+    topScreen.textContent = checkDecimals(partial);
     numbers.splice(0);
     numbers.push(partial);
     floatKey.classList.remove('clickBlock');
@@ -110,13 +108,39 @@ function checkOperator () {
     };
 };
 
-function provideInitial () {
-    if ((operator[0] == divide || operator[0] == multiply) && 
-        (numbers[1] == 0 || !numbers[1])) {
+// Prevent errors trying to divide with 0 or when a second value is not provided
+
+function provideInitial() {
+    if (operator[0] == divide) {
+        checkDivide();
+    }
+    else if (operator[0] == multiply) {
+        checkMultiply();
+    }
+    else partial = numbers.reduce(operator[0]);
+};
+
+function checkDivide() {
+    if (numbers[1] == undefined || numbers[1] == 0) {
         numbers[1] = 1;
         partial = numbers.reduce(operator[0]);
     }
     else partial = numbers.reduce(operator[0]);
+};
+
+function checkMultiply() {
+    if (numbers[1] == undefined) {
+        numbers[1] = 1;
+        partial = numbers.reduce(operator[0]);
+    }
+    else partial = numbers.reduce(operator[0]);
+};
+
+function checkDecimals(item) {
+    if (Number.isInteger(item)) {
+        return item;
+    }
+    else return parseFloat(item.toFixed(5));
 };
 
 // Add listener to each number key, on click the proper number is displayed and stored
@@ -146,13 +170,17 @@ function removeClickBlock (array) {
 // Temporary solution to overflow on the display
 function checkLength () {
     if (bottomScreen.textContent.length > 15) {
-        numbers = [];
-        partial = [];
-        numString = '';
-        bottomScreen.textContent = 'BUFFER ERROR';
-        topScreen.textContent = 'PRESS C';
-        clickBlock(keysForBlock);
+        resetOnError();
     };
+};
+
+function resetOnError () {
+    numbers = [];
+    partial = [];
+    numString = '';
+    bottomScreen.textContent = 'ERROR';
+    topScreen.textContent = 'PRESS C';
+    clickBlock(keysForBlock);
 };
 
 addListenerToNumbers(numberKeys);
