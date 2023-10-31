@@ -72,7 +72,7 @@ total.addEventListener('click', () => {
     numbers.push(+numString);
     numString = '';
     partial = numbers.reduce(operator[0]);
-    checkOperator();
+    operator = [];
     numbers.splice(0);
     numbers.push(partial);
     bottomScreen.textContent = partial;
@@ -130,7 +130,7 @@ function checkLength () {
         numbers = [];
         partial = [];
         numString = '';
-        bottomScreen.textContent = 'ERROR';
+        bottomScreen.textContent = 'BUFFER ERROR';
         topScreen.textContent = 'PRESS C';
         clickBlock(keysForBlock);
     };
