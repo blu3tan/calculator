@@ -3,6 +3,13 @@
     margin: 0;
     padding: 0;
 }
+a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.5);
+}
+a:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
 body {
     font-family: 'Rubik', sans-serif;
     font-size: 1.4rem;
@@ -12,8 +19,14 @@ body {
 .main-container {
     height: 100vh;
     display: flex;
+    flex-direction: column;
+    gap: 50px;
     justify-content: center;
     align-items: center;
+}
+.credits {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .calculator {
