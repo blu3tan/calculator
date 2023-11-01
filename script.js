@@ -27,7 +27,6 @@ const multiply = (num1, num2) => num1 *= num2;
 const divide = (num1, num2) => num1 /= num2;
 
 document.addEventListener('keyup', (e) => {
-    console.log(e.key);
     if (keyboardKeys.includes(e.key)) {
         control = false;
         numString += e.key;
@@ -252,6 +251,7 @@ function removeClickBlock (array) {
 };
 
 // Temporary solution to overflow on the display
+
 function checkLength () {
     if (bottomScreen.textContent.length > 15) {
         resetOnError();
