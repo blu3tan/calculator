@@ -75,9 +75,15 @@ body {
     height: 60px;
     width: 60px;
     cursor: pointer;
-    background-color: #47A3F1;
+    background-color: rgba(71, 163, 241, 1);
     user-select: none;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.key:hover {
+    filter: brightness(1.1);
+}
+.key:active {
+    box-shadow: none;
 }
 .clickBlock {
     pointer-events: none;
@@ -86,11 +92,11 @@ body {
     flex: 1;
 }
 .func.del {
-    background-color: #F3686B;
+    background-color: rgba(243, 104, 107, 1);
 }
 .key.equal {
-    background-color: #26CF55;
+    background-color: rgba(38, 207, 85, 1);
 }
 .operator {
-    background-color: #F1A634;
+    background-color: rgba(241, 166, 52, 1);
 }
