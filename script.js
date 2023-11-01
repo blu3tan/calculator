@@ -12,7 +12,8 @@ const multiplyOperator = document.getElementById('mult-operator');
 const divideOperator = document.getElementById('div-operator');
 const floatKey = document.getElementById('dot');
 const total = document.getElementById('total');
-
+const keyboardKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',]
+const operatorsKeys = ['.', '+', '-', '*', '/', 'Backspace', 'Enter', 'Escape'] 
 
 let operator = [];
 let partial = [];
@@ -25,75 +26,76 @@ const subtract = (num1, num2) => num1 -= num2;
 const multiply = (num1, num2) => num1 *= num2;
 const divide = (num1, num2) => num1 /= num2;
 
+document.addEventListener('keyup', (e) => {
+    console.log(e.key);
+    if (keyboardKeys.includes(e.key)) {
+        control = false;
+        numString += e.key;
+        bottomScreen.textContent += e.key;
+        removeClickBlock(operatorKeys);
+        checkLength();
+    }
+    else if (operatorsKeys.includes(e.key)) {
+        switch (e.key) {
+            case '.':
+                floatKeyEvent();
+                break;
+            case '+':
+                addKeyEvent();
+                break;
+            case '-':
+                subtractKeyEvent();
+                break;
+            case '*':
+                multiplyKeyEvent();
+                break;
+            case '/':
+                divideKeyEvent();
+                break;
+            case 'Backspace':
+                delKeyEvent();
+                break;
+            case 'Enter':
+                totalKeyEvent();
+                break;
+            case 'Escape':
+                cKeyEvent();
+                break;            
+        }
+    }
+});
+
 // Special keys custom listeners
 cKey.addEventListener('click', () => {
-    numbers = [];
-    partial = [];
-    operator = [];
-    numString = '';
-    bottomScreen.textContent = '';
-    topScreen.textContent = '';
-    control = false;
-    removeClickBlock(keysForBlock);
+    cKeyEvent();
 });
 
 delKey.addEventListener('click', () => {
-    bottomScreen.textContent = bottomScreen.textContent.slice(0, -1);
-    numString = numString.slice(0, -1);
+    delKeyEvent();
 });
 
 floatKey.addEventListener('click', (e) => {
-    control = false;
-    numString += '.';
-    bottomScreen.textContent += '.';
-    e.target.classList.add('clickBlock');
-    checkLength();
+    floatKeyEvent();
 });
 
 plusOperator.addEventListener('click', () => {
-    control = false;
-    clickBlock(operatorKeys);
-    bottomScreen.textContent += '+';
-    operator.push(add);
-    calculateAndDisplay();
+    addKeyEvent();
 });
 
 minusOperator.addEventListener('click', () => {
-    control = false;
-    clickBlock(operatorKeys);
-    bottomScreen.textContent += '-';
-    operator.push(subtract);
-    calculateAndDisplay();
+    subtractKeyEvent();
 });
 
 multiplyOperator.addEventListener('click', () => {
-    control = false;
-    clickBlock(operatorKeys);
-    bottomScreen.textContent += 'x';
-    operator.push(multiply);
-    calculateAndDisplay();
+    multiplyKeyEvent();
 });
 
 divideOperator.addEventListener('click', () => {
-    control = false;
-    clickBlock(operatorKeys);
-    bottomScreen.textContent += '÷';
-    operator.push(divide);
-    calculateAndDisplay();
+    divideKeyEvent();
 });
 
 total.addEventListener('click', () => {
-    control = true;
-    numbers.push(+numString);
-    numString = '';
-    provideInitial();
-    operator = [];
-    numbers.splice(0);
-    numbers.push(partial);
-    bottomScreen.textContent = checkDecimals(partial);
-    topScreen.textContent = '';
-    clickBlock(numberKeys);
-    removeClickBlock(operatorKeys);
+    totalKeyEvent();
 });
 
 //  Main operation function - perform the operation based on the current operator
@@ -152,15 +154,87 @@ function checkDecimals(item) {
     else return parseFloat(item.toFixed(5));
 };
 
+// Functions to perform actions based on the key pressed
+// These blocks of actions are wrapped in functions instead of being added to the event listener
+// to allow keyboard support 
+
+function numberKeyEvent(element) {
+    control = false;
+    numString += (element.innerText);
+    bottomScreen.textContent += element.innerText;
+    removeClickBlock(operatorKeys);
+    checkLength();
+};
+
+function totalKeyEvent() {
+    control = true;
+    numbers.push(+numString);
+    numString = '';
+    provideInitial();
+    operator = [];
+    numbers.splice(0);
+    numbers.push(partial);
+    bottomScreen.textContent = checkDecimals(partial);
+    topScreen.textContent = '';
+    clickBlock(numberKeys);
+    removeClickBlock(operatorKeys);
+};
+
+function divideKeyEvent() {
+    control = false;
+    clickBlock(operatorKeys);
+    bottomScreen.textContent += '÷';
+    operator.push(divide);
+    calculateAndDisplay();
+};
+function multiplyKeyEvent() {
+    control = false;
+    clickBlock(operatorKeys);
+    bottomScreen.textContent += 'x';
+    operator.push(multiply);
+    calculateAndDisplay();
+};
+function addKeyEvent() {
+    control = false;
+    clickBlock(operatorKeys);
+    bottomScreen.textContent += '+';
+    operator.push(add);
+    calculateAndDisplay();
+};
+function subtractKeyEvent() {
+    control = false;
+    clickBlock(operatorKeys);
+    bottomScreen.textContent += '-';
+    operator.push(subtract);
+    calculateAndDisplay();
+};
+function floatKeyEvent() {
+    control = false;
+    numString += '.';
+    bottomScreen.textContent += '.';
+    e.target.classList.add('clickBlock');
+    checkLength();
+};
+function delKeyEvent() {
+    bottomScreen.textContent = bottomScreen.textContent.slice(0, -1);
+    numString = numString.slice(0, -1);
+};
+function cKeyEvent() {
+    numbers = [];
+    partial = [];
+    operator = [];
+    numString = '';
+    bottomScreen.textContent = '';
+    topScreen.textContent = '';
+    control = false;
+    removeClickBlock(keysForBlock);
+};
+
 // Add listener to each number key, on click the proper number is displayed and stored
 function addListenerToNumbers (array) {
     array.forEach(element => {
         element.addEventListener('click', () => {
-                control = false;
-                numString += (element.innerText);
-                bottomScreen.textContent += element.innerText;
-                removeClickBlock(operatorKeys);
-                checkLength();
+               numberKeyEvent(element);
             })
     });
 };
