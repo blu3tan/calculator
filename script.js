@@ -30,6 +30,7 @@ const multiply = (num1, num2) => num1 *= num2;
 const divide = (num1, num2) => num1 /= num2;
 
 document.addEventListener('keyup', (e) => {
+    clickSound();
     if (keyboardKeys.includes(e.key)) {
         control = false;
         numString += e.key;
