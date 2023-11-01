@@ -18,6 +18,7 @@ let operator = [];
 let partial = [];
 let numbers = [];
 let numString = '';
+let control = false;
 
 const add = (num1, num2) => num1 += num2;
 const subtract = (num1, num2) => num1 -= num2;
@@ -32,14 +33,17 @@ cKey.addEventListener('click', () => {
     numString = '';
     bottomScreen.textContent = '';
     topScreen.textContent = '';
+    control = false;
     removeClickBlock(keysForBlock);
 });
+
 delKey.addEventListener('click', () => {
     bottomScreen.textContent = bottomScreen.textContent.slice(0, -1);
     numString = numString.slice(0, -1);
 });
 
 floatKey.addEventListener('click', (e) => {
+    control = false;
     numString += '.';
     bottomScreen.textContent += '.';
     e.target.classList.add('clickBlock');
@@ -47,6 +51,7 @@ floatKey.addEventListener('click', (e) => {
 });
 
 plusOperator.addEventListener('click', () => {
+    control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += '+';
     operator.push(add);
@@ -54,6 +59,7 @@ plusOperator.addEventListener('click', () => {
 });
 
 minusOperator.addEventListener('click', () => {
+    control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += '-';
     operator.push(subtract);
@@ -61,6 +67,7 @@ minusOperator.addEventListener('click', () => {
 });
 
 multiplyOperator.addEventListener('click', () => {
+    control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += 'x';
     operator.push(multiply);
@@ -68,6 +75,7 @@ multiplyOperator.addEventListener('click', () => {
 });
 
 divideOperator.addEventListener('click', () => {
+    control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += '÷';
     operator.push(divide);
@@ -75,6 +83,7 @@ divideOperator.addEventListener('click', () => {
 });
 
 total.addEventListener('click', () => {
+    control = true;
     numbers.push(+numString);
     numString = '';
     provideInitial();
@@ -129,7 +138,7 @@ function checkDivide() {
 };
 
 function checkMultiply() {
-    if (numbers[1] == undefined) {
+    if ((numbers[1] == undefined) || (numbers[1] == 0 && control == false)) {
         numbers[1] = 1;
         partial = numbers.reduce(operator[0]);
     }
@@ -147,6 +156,7 @@ function checkDecimals(item) {
 function addListenerToNumbers (array) {
     array.forEach(element => {
         element.addEventListener('click', () => {
+                control = false;
                 numString += (element.innerText);
                 bottomScreen.textContent += element.innerText;
                 removeClickBlock(operatorKeys);
