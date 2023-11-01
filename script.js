@@ -12,8 +12,11 @@ const multiplyOperator = document.getElementById('mult-operator');
 const divideOperator = document.getElementById('div-operator');
 const floatKey = document.getElementById('dot');
 const total = document.getElementById('total');
-const keyboardKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',]
-const operatorsKeys = ['.', '+', '-', '*', '/', 'Backspace', 'Enter', 'Escape'] 
+const keyboardKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',];
+const operatorsKeys = ['.', '+', '-', '*', '/', 'Backspace', 'Enter', 'Escape'];
+
+let clickSound = () => new Audio('./sound/click.mp3').play();
+let hooverSound = () => new Audio('./sound/hoover.wav').play();
 
 let operator = [];
 let partial = [];
@@ -158,6 +161,7 @@ function checkDecimals(item) {
 // to allow keyboard support 
 
 function numberKeyEvent(element) {
+    clickSound();
     control = false;
     numString += (element.innerText);
     bottomScreen.textContent += element.innerText;
@@ -166,6 +170,7 @@ function numberKeyEvent(element) {
 };
 
 function totalKeyEvent() {
+    clickSound();
     control = true;
     numbers.push(+numString);
     numString = '';
@@ -180,6 +185,7 @@ function totalKeyEvent() {
 };
 
 function divideKeyEvent() {
+    clickSound();
     control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += '÷';
@@ -187,6 +193,7 @@ function divideKeyEvent() {
     calculateAndDisplay();
 };
 function multiplyKeyEvent() {
+    clickSound();
     control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += 'x';
@@ -194,6 +201,7 @@ function multiplyKeyEvent() {
     calculateAndDisplay();
 };
 function addKeyEvent() {
+    clickSound();
     control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += '+';
@@ -201,6 +209,7 @@ function addKeyEvent() {
     calculateAndDisplay();
 };
 function subtractKeyEvent() {
+    clickSound();
     control = false;
     clickBlock(operatorKeys);
     bottomScreen.textContent += '-';
@@ -208,6 +217,7 @@ function subtractKeyEvent() {
     calculateAndDisplay();
 };
 function floatKeyEvent() {
+    clickSound();
     control = false;
     numString += '.';
     bottomScreen.textContent += '.';
@@ -215,10 +225,12 @@ function floatKeyEvent() {
     checkLength();
 };
 function delKeyEvent() {
+    clickSound();
     bottomScreen.textContent = bottomScreen.textContent.slice(0, -1);
     numString = numString.slice(0, -1);
 };
 function cKeyEvent() {
+    clickSound();
     numbers = [];
     partial = [];
     operator = [];
