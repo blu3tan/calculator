@@ -3,7 +3,7 @@
 
 <div align="center">
 <a href="https://github.com/blu3tan/calculator">
-<img src="./Calculator.png">
+<img src="./Calculator_display.png">
 </a>
 
 Final project of the foundations course, a simple calculator made with HTML CSS and vanilla Javascript.
