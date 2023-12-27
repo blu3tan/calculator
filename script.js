@@ -13,7 +13,7 @@ const divideOperator = document.getElementById('div-operator');
 const floatKey = document.getElementById('dot');
 const total = document.getElementById('total');
 const keyboardKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',];
-const operatorsKeys = ['.', '+', '-', '*', '/', 'Backspace', 'Enter', 'Escape'];
+const operatorSymbol = ['.', '+', '-', '*', '/', 'Backspace', 'Enter', 'Escape'];
 
 let clickSound = () => new Audio('./sound/click.mp3').play();
 let hooverSound = () => new Audio('./sound/hoover.wav').play();
@@ -38,7 +38,7 @@ document.addEventListener('keyup', (e) => {
         removeClickBlock(operatorKeys);
         checkLength();
     }
-    else if (operatorsKeys.includes(e.key)) {
+    else if (operatorSymbol.includes(e.key)) {
         switch (e.key) {
             case '.':
                 floatKeyEvent();
